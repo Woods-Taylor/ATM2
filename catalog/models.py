@@ -28,6 +28,7 @@ class Card(models.Model):
     cardNumber = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique Id for this card', blank=True, editable=False)
     dateOfIssue = models.DateField(null=True, blank=True)
     expiryDate = models.DateField(null=True, blank=True)
+
     objects = models.Manager()
 
     CARD_STATUS = (
