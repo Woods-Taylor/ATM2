@@ -1,17 +1,22 @@
 from django.db import models
+from django.contrib.auth.models import User
 import uuid #required for unique instances of objects
+from datetime import date
 
-# Create your models here.
+# models are created here.
 
 from django.urls import reverse # Used to generate URLs by reversing the URL patterns
 
 class Account(models.Model):
-    accountName = models.CharField(max_length=30, help_text="Enter the name of the account holder")
+    accountName = models.CharField(max_length=30, help_text="Enter the name of the account holder", unique=True)
     accountNumber = models.CharField(max_length=13, null=True)
+    #myNewUser = User.objects.create_user(username=accountName, email='test', password='test1111')
     balance = models.CharField(max_length=22, null=True)
     address = models.CharField(max_length=100,null=True )
     phoneNumber = models.CharField(max_length=14, null=True)
+    accountHolder = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     objects = models.Manager()
+
 
     def __str__(self):
         return self.accountName
