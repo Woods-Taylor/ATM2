@@ -51,6 +51,11 @@ class Card(models.Model):
         help_text='CARD_Status',
     )
 
+    # @property
+    # def is_expired(self):
+    # if self.renew_date and date.today() > self.due_back:
+    #     return True
+    # return False
 
     def __str__(self):
         """String for representing the Model object."""
