@@ -6,6 +6,7 @@ import uuid #required for unique instances of objects
 from django.urls import reverse # Used to generate URLs by reversing the URL patterns
 
 class Account(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular account')
     accountName = models.CharField(max_length=30, help_text="Enter the name of the account holder")
     accountNumber = models.CharField(max_length=13, null=True)
     balance = models.CharField(max_length=22, null=True)
