@@ -45,11 +45,11 @@ class Card(models.Model):
         blank=True,
         default='m',
         help_text='CARD_Status',
-    )###########################################################################
-#################################################################################
-#############################################################################################
-    def __str__(self):                      ##################################################################
-        """String for representing the Model object.""" ##############################################
+    )
+
+    
+    def __str__(self):
+        """String for representing the Model object.""" 
         return self.account.accountName
 
     def get_absolute_url(self):
