@@ -2,6 +2,7 @@ from django.shortcuts import render
 from catalog.models import Account as userAccount
 from catalog.models import Card as userCard
 
+from catalog.forms import getBalanceForm
 
 # Create your views here.
 
@@ -15,9 +16,8 @@ def index(request):
     specific_account = userAccount.objects.get(accountNumber='12345')
     balance=specific_account.balance
     #accountId = userAccount.objects.get(id = )
-
-
     num_cards = userCard.objects.all().count()
+
 
     context = {
         'num_accounts' : num_accounts,
