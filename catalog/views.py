@@ -9,9 +9,11 @@ def index(request):
     """View function for home page of site"""
 
     num_accounts = userAccount.objects.all().count()
+
     #test = "test"
     #count = 12857
-    #specific_account = userAccount._meta.fields
+    specific_account = userAccount.objects.get(accountNumber='12345')
+    balance=specific_account.balance
     #accountId = userAccount.objects.get(id = )
 
 
@@ -19,6 +21,7 @@ def index(request):
 
     context = {
         'num_accounts' : num_accounts,
+        'balance' : balance,
         #'specific_account' : specific_account,
         'num_cards' : num_cards,
         #'test' : test,
