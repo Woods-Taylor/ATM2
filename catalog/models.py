@@ -6,9 +6,8 @@ import uuid #required for unique instances of objects
 from django.urls import reverse # Used to generate URLs by reversing the URL patterns
 
 class Account(models.Model):
-    id = models.CharField(max_length=30, null=True, default = "toast")
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular account')
     accountName = models.CharField(max_length=30, help_text="Enter the name of the account holder")
-    #uniqueNum = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique Id for this account', blank=True, editable=False)
     accountNumber = models.CharField(max_length=13, null=True)
     balance = models.CharField(max_length=22, null=True)
     address = models.CharField(max_length=100,null=True )
@@ -48,9 +47,9 @@ class Card(models.Model):
         help_text='CARD_Status',
     )
 
-
+    
     def __str__(self):
-        """String for representing the Model object."""
+        """String for representing the Model object.""" 
         return self.account.accountName
 
     def get_absolute_url(self):
