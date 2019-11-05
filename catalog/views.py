@@ -11,8 +11,7 @@ def index(request):
     num_accounts = userAccount.objects.all().count()
     test = "test"
     count = 12857
-    specific_account = userAccount._meta.fields
-
+    specific_account = userAccount.objects.get(accountNumber='12345')
     num_cards = userCard.objects.all().count()
 
     context = {
@@ -23,3 +22,6 @@ def index(request):
         }
 
     return render(request, 'index.html', context=context)
+
+def get_balance(request):
+    pass    
