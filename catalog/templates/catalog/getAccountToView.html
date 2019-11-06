@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+{% extends "base_generic.html" %}
+
+{% block content %}
 <h1>Enter account information</h1>
 <p>Enter your pin:</p>
 <form action="{% url 'catalog:detail' %}" method="post">
@@ -6,3 +9,4 @@
     <input type="text" value="" name="text" id="text">
     <input type="submit" value="Submit">
 </form>
+{% endblock %}

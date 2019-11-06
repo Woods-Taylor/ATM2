@@ -6,5 +6,5 @@ urlpatterns = [
     path('detail/', views.details, name = 'detail'),
     path('getAccountWith/', views.getAccountToWithdrawal, name = 'getAccountToWithdrawal'),
     path('getAccountView/', views.getAccountToView, name = "getAccountToView"),
-    path('transfer/', views.transfer, name = "transfer")
+    path('transfer/', views.transfer, name = "transfer"),
 ]
