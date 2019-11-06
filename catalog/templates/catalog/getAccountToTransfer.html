@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+{% extends "base_generic.html" %}
+
+{% block content %}
 <h1>Enter account information for withdrawal</h1>
 <form action="{% url 'catalog:transfer' %}" method="post">
     {% csrf_token %}
@@ -16,3 +19,4 @@
     <br>
     <input type="submit" value="Submit">
 </form>
+{% endblock %}
