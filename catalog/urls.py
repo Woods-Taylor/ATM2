@@ -4,5 +4,7 @@ app_name = "catalog"
 urlpatterns = [
     path('', views.index, name='index'),
     path('detail/', views.details, name = 'detail'),
-    path('account/', views.getAccount, name = "getAccount")
+    path('getAccountWith/', views.getAccountToWithdrawal, name = 'getAccountToWithdrawal'),
+    path('getAccountView/', views.getAccountToView, name = "getAccountToView"),
+    path('transfer/', views.transfer, name = "transfer")
 ]

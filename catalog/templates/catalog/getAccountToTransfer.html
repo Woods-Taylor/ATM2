@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<h1>Enter account information for withdrawal</h1>
+<form action="{% url 'catalog:transfer' %}" method="post">
+    {% csrf_token %}
+    <label for="yourpin">Enter your pin:</label>
+    <br>
+    <input type="text" value="" name="yourpin" id="yourpin">
+    <br>
+    <label for = "theirpin">Enter their pin</label>
+    <br>
+    <input type="text" value="" name="theirpin" id="theirpin">
+    <br>
+    <label for = "amount">Enter amount to transfer</label>
+    <br>
+    <input type="text" value="" name="amount" id="amount">
+    <br>
+    <input type="submit" value="Submit">
+</form>

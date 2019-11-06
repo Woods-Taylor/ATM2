@@ -18,7 +18,11 @@
           <li>
             <a href="{% url 'catalog:index' %}">Home</a>
             <br>
-            <a href="{% url 'catalog:getAccount' %}">View Account Balance</a>
+            <a href="{% url 'catalog:getAccountToView' %}">View Account Balance</a>
+            <br>
+            <a href="{% url 'catalog:getAccountToWithdrawal' %}">Withdraw From Account</a>
+            <br>
+            <a href="{% url 'catalog:index' %}">Transfer Money</a>
           </li>
         </ul>
      {% endblock %}
