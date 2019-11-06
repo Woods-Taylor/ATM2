@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<h1>Enter account information</h1>
+<p>Enter your pin:</p>
+<form action="{% url 'catalog:detail' %}" method="post">
+    {% csrf_token %}
+    <input type="text" value="" name="text" id="text">
+    <input type="submit" value="Submit">
+</form>

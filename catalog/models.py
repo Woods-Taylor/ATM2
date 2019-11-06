@@ -22,7 +22,6 @@ class Account(models.Model):
 
 class Card(models.Model):
     """Model representing a specific ATM card."""
-
     # Foreign Key used because Card can only have one Account, but Account's can have multiple Cards
     account = models.ForeignKey('Account', on_delete=models.SET_NULL, null=True)
     pin = models.CharField( max_length=4)

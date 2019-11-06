@@ -15,7 +15,11 @@
       <div class="col-sm-2">
       {% block sidebar %}
         <ul class="sidebar-nav">
-          <li><a href="{% url 'index' %}">Home</a></li>
+          <li>
+            <a href="{% url 'catalog:index' %}">Home</a>
+            <br>
+            <a href="{% url 'catalog:getAccount' %}">View Account Balance</a>
+          </li>
         </ul>
      {% endblock %}
       </div>

@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>ATM Home</h1>
+  <p>Welcome to ATM, a website developed by <em>Taylor Woods, Alexander Hewitt, James Ellerbee and Raj Kotak</em>!</p>
+  <h2>Statistics</h2>
+  <p>The bank has the following record counts:</p>
+  <ul>
+    <li><strong>Accounts:</strong> {{ num_accounts }}</li>
+    <li><strong>Cards:</strong> {{ num_cards }}</li>
+    <li><strong>Account Number:</strong> {{ specific_account }}
+  </ul>
+{% endblock %}
