@@ -53,6 +53,8 @@ def transfer(request):
 def withdraw(request):
     card = get_object_or_404(userCard, pin = request.POST["yourpin"])
     account = card.account
-    account.balance = int(account.balance) - int(request.POST["amount"]) 
-    account.save()
-    return render(request, "catalog/detail.html", {"account" : account})
+    if int(account.balance) - int(request.POST["amount"]) > 0:
+        account.balance = int(account.balance) - int(request.POST["amount"]) 
+        account.save()
+        return render(request, "catalog/detail.html", {"account" : account})
+    return render(request, "catalog/failure.html")
