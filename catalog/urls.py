@@ -8,4 +8,5 @@ urlpatterns = [
     path('getAccountView/', views.getAccountToView, name = "getAccountToView"),
     path('getAccountTransfer', views.getAccountToTransfer, name = "getAccountToTransfer"),
     path('transfer/', views.transfer, name = "transfer"),
+    path('withdraw/', views.withdraw, name = "withdraw"),
 ]

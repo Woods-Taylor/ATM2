@@ -3,7 +3,7 @@
 
 {% block content %}
 <h1>Enter account information for withdrawal</h1>
-<form action="{% url 'catalog:index' %}" method="post">
+<form action="{% url 'catalog:withdraw' %}" method="post">
     {% csrf_token %}
     <label for="yourpin">Enter your pin:</label>
     <br>
