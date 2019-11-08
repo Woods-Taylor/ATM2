@@ -10,7 +10,7 @@ class Account(models.Model):
     accountName = models.CharField(max_length=30, help_text="Enter the name of the account holder")
     accountNumber = models.CharField(max_length=13, null=True)
     balance = models.CharField(max_length=22, null=True)
-    address = models.CharField(max_length=100,null=True )
+    address = models.CharField(max_length=100,null=True)
     phoneNumber = models.CharField(max_length=14, null=True)
     objects = models.Manager()
 
@@ -43,7 +43,7 @@ class Card(models.Model):
         choices=CARD_STATUS,
         blank=True,
         default='m',
-        help_text='CARD_Status',
+        help_text='Card status',
     )
 
     
@@ -54,3 +54,20 @@ class Card(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('account-detail', args=[str(self.id)])
+
+class ATM(models.Model):
+    address = models.CharField(max_length=100,null=True)
+    ATM_STATUS = (
+        ('m', 'Maintenance'),
+        ('o', 'Opeartional'),
+    )
+    status = models.CharField(
+        max_length=1,
+        choices=ATM_STATUS,
+        blank=True,
+        default='m',
+        help_text='Atm status'
+    )
+
+    lastRefillDate = models.DateField(null=True, blank=True)
+    currentBalance = models.CharField(max_length=22, null=True)

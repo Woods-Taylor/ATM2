@@ -5,7 +5,6 @@ from catalog.models import Card as userCard
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
-
 def index(request):
     """View function for home page of site"""
     num_accounts = userAccount.objects.all().count()
