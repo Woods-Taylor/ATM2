@@ -42,15 +42,17 @@ def transfer(request):
     card2 = get_object_or_404(userCard, pin = request.POST["theirpin"])
     amount = request.POST["amount"]
     account1 = card1.account
-    account2 = card2.account
-    prevBal = account1.balance
-    account1.balance = int(account1.balance) - int(amount)
-    account2.balance = int(account2.balance) + int(amount)
-    account1.save()
-    account2.save()
-    return render(request, "catalog/success.html", {'account': account1, 
-                                                    'prevBal':prevBal,
-    })
+    if int(account1.balance) - int(amount) > 0:
+        account2 = card2.account
+        prevBal = account1.balance
+        account1.balance = int(account1.balance) - int(amount)
+        account2.balance = int(account2.balance) + int(amount)
+        account1.save()
+        account2.save()
+        return render(request, "catalog/success.html", {'account': account1, 
+                                                        'prevBal':prevBal,
+        })
+    return render(request, "catalog/failure.html")
 
 def withdraw(request):
     card = get_object_or_404(userCard, pin = request.POST["yourpin"])
