@@ -9,7 +9,6 @@ from django.shortcuts import get_object_or_404
 def index(request):
     """View function for home page of site"""
     num_accounts = userAccount.objects.all().count()
-    count = 12857
     specific_account = userAccount._meta.fields
 
     num_cards = userCard.objects.all().count()
@@ -44,17 +43,23 @@ def transfer(request):
     amount = request.POST["amount"]
     account1 = card1.account
     account2 = card2.account
+    prevBal = account1.balance
     account1.balance = int(account1.balance) - int(amount)
     account2.balance = int(account2.balance) + int(amount)
     account1.save()
     account2.save()
-    return render(request, "catalog/success.html")
+    return render(request, "catalog/success.html", {'account': account1, 
+                                                    'prevBal':prevBal,
+    })
 
 def withdraw(request):
     card = get_object_or_404(userCard, pin = request.POST["yourpin"])
     account = card.account
     if int(account.balance) - int(request.POST["amount"]) > 0:
+        prevBal = account.balance
         account.balance = int(account.balance) - int(request.POST["amount"]) 
         account.save()
-        return render(request, "catalog/detail.html", {"account" : account})
+        return render(request, "catalog/success.html", {"account" : account,
+                                                        "prevBal" : prevBal
+        })
     return render(request, "catalog/failure.html")

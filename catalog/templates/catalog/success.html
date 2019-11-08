@@ -1,6 +1,8 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-Success!
-New Balance: {{ account.balance}}!
+<h1>Success!</h1>
+<strong>Balance before transaction:</strong> {{prevBal}}
+<br>
+<strong>Balance after transation:</strong> {{ account.balance}}!
 {% endblock %}
