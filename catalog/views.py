@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from catalog.models import Account as userAccount
 from catalog.models import Card as userCard
+from catalog.models import ATM
 
 from django.shortcuts import get_object_or_404
 
@@ -9,13 +10,14 @@ def index(request):
     """View function for home page of site"""
     num_accounts = userAccount.objects.all().count()
     specific_account = userAccount._meta.fields
-
     num_cards = userCard.objects.all().count()
+    atm = get_object_or_404(ATM, address = "14way")
 
     context = {
         'num_accounts' : num_accounts,
         'specific_account' : specific_account,
         'num_cards' : num_cards,
+        'atm': atm,
         }
 
     return render(request, 'catalog/index.html', context=context)
@@ -39,15 +41,18 @@ def details(request):
 def transfer(request):
     card1 = get_object_or_404(userCard, pin = request.POST["yourpin"])
     card2 = get_object_or_404(userCard, pin = request.POST["theirpin"])
+    atm = get_object_or_404(ATM, address = "14way")
     amount = request.POST["amount"]
     account1 = card1.account
-    if int(account1.balance) - int(amount) > 0:
+    if int(account1.balance) - int(amount) > 0 and int(atm.currentBalance) - int(amount) > 0:
         account2 = card2.account
         prevBal = account1.balance
         account1.balance = int(account1.balance) - int(amount)
         account2.balance = int(account2.balance) + int(amount)
         account1.save()
         account2.save()
+        atm.currentBalance = int(atm.currentBalance) - int(amount)
+        atm.save()
         return render(request, "catalog/success.html", {'account': account1, 
                                                         'prevBal':prevBal,
         })
@@ -55,11 +60,15 @@ def transfer(request):
 
 def withdraw(request):
     card = get_object_or_404(userCard, pin = request.POST["yourpin"])
+    atm = get_object_or_404(ATM, address = "14way")
     account = card.account
-    if int(account.balance) - int(request.POST["amount"]) > 0:
+    amount = request.POST["amount"]
+    if int(account.balance) - int(amount) > 0 and int(atm.currentBalance) - int(amount) > 0:
         prevBal = account.balance
-        account.balance = int(account.balance) - int(request.POST["amount"]) 
+        account.balance = int(account.balance) - int(amount) 
         account.save()
+        atm.currentBalance = int(atm.currentBalance) - int(amount)
+        atm.save()
         return render(request, "catalog/success.html", {"account" : account,
                                                         "prevBal" : prevBal
         })
