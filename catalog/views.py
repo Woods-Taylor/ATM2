@@ -56,7 +56,11 @@ def transfer(request):
         return render(request, "catalog/success.html", {'account': account1, 
                                                         'prevBal':prevBal,
         })
-    return render(request, "catalog/failure.html")
+    elif int(account1.balance) - int(amount) <= 0:
+        return render(request, "catalog/failure.html", {"message":"insufficent funds in banking account!"})
+    elif int(atm.currentBalance) - int(amount) <= 0:
+        return render(request, "catalog/failure.html", {"message":"insufficent funds in ATM!"})
+    return render(request, "catalog/failure.html", {"message":"error not cataloged"})
 
 def withdraw(request):
     card = get_object_or_404(userCard, pin = request.POST["yourpin"])
@@ -72,4 +76,8 @@ def withdraw(request):
         return render(request, "catalog/success.html", {"account" : account,
                                                         "prevBal" : prevBal
         })
-    return render(request, "catalog/failure.html")
+    elif int(account.balance) - int(amount) <= 0:
+        return render(request, "catalog/failure.html", {"message":"insufficent funds in banking account!"})
+    elif int(atm.currentBalance) - int(amount) <= 0:
+        return render(request, "catalog/failure.html", {"message":"insufficent funds in ATM!"})
+    return render(request, "catalog/failure.html", {"message":"error not cataloged!"})
