@@ -44,6 +44,10 @@ def transfer(request):
     atm = get_object_or_404(ATM, address = "14way")
     amount = request.POST["amount"]
     account1 = card1.account
+
+    if card1.status != 'v':
+        return render(request, "catalog/failure.html", {"message": "Card not vaild"})
+
     if int(account1.balance) - int(amount) > 0 and int(atm.currentBalance) - int(amount) > 0:
         account2 = card2.account
         prevBal = account1.balance
