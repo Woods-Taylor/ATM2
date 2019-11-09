@@ -33,12 +33,29 @@ def getAccountToWithdrawal(request):
 def getAccountToTransfer(request):
     return render(request, 'catalog/getAccountToTransfer.html')
 
+def getCardStatusMessage(status):
+    '''this helper function returns a status message if a card is found to be invaild'''
+    message = ''
+    if status == 'b':
+        message = "Card blocked, contact your bank if you believe you are seeing this message in error."
+    elif status == 'e':
+        message = "Card Expired, please contact your bank to renew your card."
+    elif status == 's':
+        message = "Card reported lost/stolen. contact your bank if you believe you are seeing this message in error."
+    elif status == 'm':
+        message = "Card not activated, please contact your bank to resolve this error."
+    else:
+        message = "Error, please try again. Contanct your bank if this problem persists."
+    return message
+
 def details(request):
+    '''this view renders the account details page given a card'''
     card = get_object_or_404(userCard, pin = request.POST["text"])
     account = card.account
     return render(request, 'catalog/detail.html', {'account': account})
 
 def transfer(request):
+    '''this view renders the transfer request given source and destination pin and amount'''
     card1 = get_object_or_404(userCard, pin = request.POST["yourpin"])
     card2 = get_object_or_404(userCard, pin = request.POST["theirpin"])
     atm = get_object_or_404(ATM, address = "14way")
@@ -46,7 +63,9 @@ def transfer(request):
     account1 = card1.account
 
     if card1.status != 'v':
-        return render(request, "catalog/failure.html", {"message": "Card not vaild"})
+        return render(request, "catalog/failure.html", {"message": getCardStatusMessage(card1.status)})
+    if card2.status != 'v':
+        return render(request, "catalog/failure.html", {"message": getCardStatusMessage(card2.status)})
 
     if int(account1.balance) - int(amount) > 0 and int(atm.currentBalance) - int(amount) > 0:
         account2 = card2.account
@@ -67,10 +86,13 @@ def transfer(request):
     return render(request, "catalog/failure.html", {"message":"error not cataloged"})
 
 def withdraw(request):
+    '''this view renders the withdraw request'''
     card = get_object_or_404(userCard, pin = request.POST["yourpin"])
     atm = get_object_or_404(ATM, address = "14way")
     account = card.account
     amount = request.POST["amount"]
+    if card.status != 'v':
+        return render(request, "catalog/failure.html", {"message": "Card not vaild"})
     if int(account.balance) - int(amount) > 0 and int(atm.currentBalance) - int(amount) > 0:
         prevBal = account.balance
         account.balance = int(account.balance) - int(amount) 
