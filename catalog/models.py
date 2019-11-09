@@ -36,6 +36,7 @@ class Card(models.Model):
         ('v', 'Valid'),
         ('e', 'Expired'),
         ('s', 'Lost/Stolen'),
+        ('b', 'Blocked'),
     )
 
     status = models.CharField(
@@ -46,9 +47,9 @@ class Card(models.Model):
         help_text='Card status',
     )
 
-    
+
     def __str__(self):
-        """String for representing the Model object.""" 
+        """String for representing the Model object."""
         return self.account.accountName
 
     def get_absolute_url(self):
