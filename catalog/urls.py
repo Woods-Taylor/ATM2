@@ -6,7 +6,7 @@ urlpatterns = [
     path('detail/', views.details, name = 'detail'),
     path('getAccountWith/', views.getAccountToWithdrawal, name = 'getAccountToWithdrawal'),
     path('getAccountView/', views.getAccountToView, name = "getAccountToView"),
-    path('getAccountTransfer', views.getAccountToTransfer, name = "getAccountToTransfer"),
+    path('getAccountTransfer/', views.getAccountToTransfer, name = "getAccountToTransfer"),
     path('transfer/', views.transfer, name = "transfer"),
     path('withdraw/', views.withdraw, name = "withdraw"),
 ]

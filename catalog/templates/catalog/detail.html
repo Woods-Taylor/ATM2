@@ -2,8 +2,11 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1>Account Name: {{ account.accountName}}</h1>
+<h1>Account Information</h1>
+<h2>Account Name: {{ account.accountName}}</h2>
 <ul>
-Account balance: {{account.balance}}
+Account balance: {{ account.balance }}
 </ul>
+<h2>Transaction History</h2>
+{{ history }}
 {% endblock %}

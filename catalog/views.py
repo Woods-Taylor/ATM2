@@ -53,7 +53,9 @@ def details(request):
     '''this view renders the account details page given a card'''
     card = get_object_or_404(userCard, pin = request.POST["text"])
     account = card.account
-    return render(request, 'catalog/detail.html', {'account': account})
+    return render(request, 'catalog/detail.html', {'account': account,
+                                                   'history': card.transactionHistory.history,
+    })
 
 def transfer(request):
     '''this view renders the transfer request given source and destination pin and amount'''
@@ -73,8 +75,10 @@ def transfer(request):
         prevBal = account1.balance
         account1.balance = int(account1.balance) - int(amount)
         account2.balance = int(account2.balance) + int(amount)
-        card1.transactionHistory.history += "Money Sent to: "+ card1.account.accountName + " on " + str(datetime.datetime.now()) + "\n"
+        card1.transactionHistory.history += "Money Sent to: " + card2.account.accountName + " amount of " + amount + " on " + str(datetime.datetime.now()) + "\n"
         card1.transactionHistory.save()
+        card2.transactionHistory.history += "Money recieved from:" + card1.account.accountName + " amount of " + amount + "on " + str(datetime.datetime.now()) + "\n"
+        card2.transactionHistory.save()
         account1.save()
         account2.save()
         atm.currentBalance = int(atm.currentBalance) - int(amount)
