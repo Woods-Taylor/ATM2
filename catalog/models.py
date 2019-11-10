@@ -28,7 +28,7 @@ class Card(models.Model):
     cardNumber = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique Id for this card', blank=True, editable=False)
     dateOfIssue = models.DateField(null=True, blank=True)
     expiryDate = models.DateField(null=True, blank=True)
-
+    transactionHistory = models.ForeignKey('cardHistory', on_delete=models.SET_NULL, null=True);
     objects = models.Manager()
 
     CARD_STATUS = (
@@ -53,7 +53,7 @@ class Card(models.Model):
         return self.account.accountName
 
     def get_absolute_url(self):
-        """Returns the url to access a detail record for this book."""
+        """Returns the url to access a detail record for this model."""
         return reverse('account-detail', args=[str(self.id)])
 
 class ATM(models.Model):
@@ -72,3 +72,14 @@ class ATM(models.Model):
 
     lastRefillDate = models.DateField(null=True, blank=True)
     currentBalance = models.CharField(max_length=22, null=True)
+
+class cardHistory(models.Model):
+    history = models.TextField(max_length=22, null=True, default="History: ")
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.history
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this model."""
+        return reverse('account-detail', args=[str(self.id)])

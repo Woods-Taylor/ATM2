@@ -2,6 +2,7 @@ from django.shortcuts import render
 from catalog.models import Account as userAccount
 from catalog.models import Card as userCard
 from catalog.models import ATM
+import datetime
 
 from django.shortcuts import get_object_or_404
 
@@ -72,11 +73,13 @@ def transfer(request):
         prevBal = account1.balance
         account1.balance = int(account1.balance) - int(amount)
         account2.balance = int(account2.balance) + int(amount)
+        card1.transactionHistory.history += "Money Sent to: "+ card1.account.accountName + " on " + str(datetime.datetime.now()) + "\n"
+        card1.transactionHistory.save()
         account1.save()
         account2.save()
         atm.currentBalance = int(atm.currentBalance) - int(amount)
         atm.save()
-        return render(request, "catalog/success.html", {'account': account1, 
+        return render(request, "catalog/success.html", {'account': account1,
                                                         'prevBal':prevBal,
         })
     elif int(account1.balance) - int(amount) <= 0:
@@ -95,7 +98,7 @@ def withdraw(request):
         return render(request, "catalog/failure.html", {"message": "Card not vaild"})
     if int(account.balance) - int(amount) > 0 and int(atm.currentBalance) - int(amount) > 0:
         prevBal = account.balance
-        account.balance = int(account.balance) - int(amount) 
+        account.balance = int(account.balance) - int(amount)
         account.save()
         atm.currentBalance = int(atm.currentBalance) - int(amount)
         atm.save()
