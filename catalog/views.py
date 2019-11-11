@@ -66,6 +66,8 @@ def transfer(request):
     card2 = get_object_or_404(userCard, pin = request.POST["theirpin"])
     atm = get_object_or_404(ATM)
     amount = request.POST["amount"]
+    if not amount.isnumeric():
+        return render(request, "catalog/failure.html", {"message" : "Invaild amount inputted"})
     account1 = card1.account
 
     if card1.status != 'v':
@@ -101,8 +103,10 @@ def withdraw(request):
     atm = get_object_or_404(ATM)
     account = card.account
     amount = request.POST["amount"]
+    if not amount.isnumeric():
+        return render(request, "catalog/failure.html", {"message" : "Invaild amount inputted"})
     if card.status != 'v':
-        return render(request, "catalog/failure.html", {"message": "Card not vaild"})
+        return render(request, "catalog/failure.html", {"message" : "Card not vaild"})
     if int(account.balance) - int(amount) > 0 and int(atm.currentBalance) - int(amount) > 0:
         prevBal = account.balance
         account.balance = int(account.balance) - int(amount)
