@@ -34,6 +34,9 @@ def getAccountToWithdrawal(request):
 def getAccountToTransfer(request):
     return render(request, 'catalog/getAccountToTransfer.html')
 
+def getAccountToChange(request):
+    return render(request, "catalog/getAccountToChange.html")
+
 def getCardStatusMessage(status):
     '''this helper function returns a status message if a card is found to be invaild'''
     message = ''
@@ -75,9 +78,9 @@ def transfer(request):
         prevBal = account1.balance
         account1.balance = int(account1.balance) - int(amount)
         account2.balance = int(account2.balance) + int(amount)
-        card1.transactionHistory.history += "Funds Sent to: " + card2.account.accountName + " amount of " + amount + " on " + str(datetime.datetime.now()) + "<br>"
+        card1.transactionHistory.history += "Funds Sent to: " + card2.account.accountName + " amount of " + amount + " on " + str(datetime.datetime.now()) + "\n"
         card1.transactionHistory.save()
-        card2.transactionHistory.history += "Funds recieved from:" + card1.account.accountName + " amount of " + amount + " on " + str(datetime.datetime.now()) + "<br>"
+        card2.transactionHistory.history += "Funds recieved from:" + card1.account.accountName + " amount of " + amount + " on " + str(datetime.datetime.now()) + "\n"
         card2.transactionHistory.save()
         account1.save()
         account2.save()
@@ -104,7 +107,7 @@ def withdraw(request):
         prevBal = account.balance
         account.balance = int(account.balance) - int(amount)
         account.save()
-        card.transactionHistory.history += "Funds withdrawed " + "amount of " + amount + " on " + str(datetime.datetime.now()) + "<br>"
+        card.transactionHistory.history += "Funds withdrawed " + "amount of " + amount + " on " + str(datetime.datetime.now()) + "\n"
         card.transactionHistory.save()
         atm.currentBalance = int(atm.currentBalance) - int(amount)
         atm.save()
@@ -116,3 +119,41 @@ def withdraw(request):
     elif int(atm.currentBalance) - int(amount) <= 0:
         return render(request, "catalog/failure.html", {"message":"insufficent funds in ATM!"})
     return render(request, "catalog/failure.html", {"message":"error not cataloged!"})
+
+def change(request):
+    '''changes accounts object'''
+    card = get_object_or_404(userCard, pin = request.POST["yourpin"])
+    account = card.account
+    changed = False
+    error = False
+    message = ''
+    # check entered new pin
+    newPin = request.POST["newpin"]
+    if newPin != '' and newPin.isnumeric() and len(newPin) == 4:
+        card.pin = newPin
+        changed = True
+    if newPin != '':
+        if not newPin.isnumeric():
+            message += "non numeric pin entered\n"
+            error = True
+        if not len(newPin) == 4:
+            message += "invaild length for pen\n"
+            error = True
+    # check newly enetered phone number
+    newPhone = request.POST["phonenum"]
+    if newPhone != '' and len(newPhone) == 13:
+        account.phoneNumber = newPhone
+        changed = True
+    if newPhone != '':
+        if not len(newPhone) == 13:
+            message += "invaild length for phone number\n"
+            error = True
+    if changed and not error: 
+        # if sucessfully changed redner change success page
+        card.save()
+        account.save()
+        return render(request, "catalog/changesuccess.html")
+    else:
+        if message == '':
+            message = 'no changes were made, please try again.'
+        return render(request, "catalog/failure.html", {'message': message})

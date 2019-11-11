@@ -5,7 +5,10 @@
 <h1>Account Information</h1>
 <h2>Account Name: {{ account.accountName}}</h2>
 <ul>
-Account balance: {{ account.balance }}
+    <li><strong>Account balance:</strong> {{ account.balance }}</li>
+    <li><strong>Account Number:</strong> {{ account.accountNumber }}</li>
+    <li><strong>Phone Number:</strong> {{ account.phoneNumber }}</li>
+    <li><strong>Address:</strong> {{ account.address }}</li>
 </ul>
 <h2>Transaction History</h2>
 {{ history }}

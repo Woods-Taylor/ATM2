@@ -7,6 +7,8 @@ urlpatterns = [
     path('getAccountWith/', views.getAccountToWithdrawal, name = 'getAccountToWithdrawal'),
     path('getAccountView/', views.getAccountToView, name = "getAccountToView"),
     path('getAccountTransfer/', views.getAccountToTransfer, name = "getAccountToTransfer"),
+    path('getAcctontChange/', views.getAccountToChange, name = "getAccountToChange"),
     path('transfer/', views.transfer, name = "transfer"),
     path('withdraw/', views.withdraw, name = "withdraw"),
+    path('change/', views.change, name = "change"),
 ]

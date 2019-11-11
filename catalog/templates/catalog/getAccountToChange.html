@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Enter account information</h1>
+<p>Fill out one or both input feilds to change account information, note; your pin is required to make changes to an account</p>
+<form action="{% url 'catalog:change' %}" method="post">
+    {% csrf_token %}
+    <label for="yourpin">Enter your pin</label>
+    <br>
+    <input type="text" value="" name="yourpin" id="yourpin">
+    <br>
+    <label for="newpin">Enter new 4-digit pin</label>
+    <br>
+    <input type="text" value="" name="newpin" id="newpin">
+    <br>
+    <label for="phonenum">Enter new phone number formatted as (xxx)xxx-xxxx</label>
+    <br>
+    <input type="text" value="" name="phonenum" id="phonenum">
+    <br>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

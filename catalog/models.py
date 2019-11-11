@@ -18,7 +18,7 @@ class Account(models.Model):
         return self.accountName
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
-        return reverse('account-detail', args=[str(self.id)])
+        return reverse('catalog:detail')
 
 class Card(models.Model):
     """Model representing a specific ATM card."""
