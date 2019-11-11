@@ -17,18 +17,10 @@
     <li>To access the admin site, click the <em>Admin site</em> link.</li>
     </ul>
   </p>
-  <h2>Atm information</h2>
+  <h2>Atm Information</h2>
   <ul>
     <li><strong>Address of atm:</strong> {{ atm.address }}</li>
     <li><strong>Status of atm (o = operational, m = in maintenance):</strong> {{ atm.status }}</li>
     <li><strong>Last refil date:</strong> {{ atm.lastRefillDate }}</li>
-    <li><strong>Current Balance:</strong> {{ atm.currentBalance }}</li>
-  </ul>
-  <h2>Statistics</h2>
-  <p>The bank has the following record counts:</p>
-  <ul>
-    <li><strong>Accounts:</strong> {{ num_accounts }}</li>
-    <li><strong>Cards:</strong> {{ num_cards }}</li>
-    <li><strong>Account Fields:</strong> {{ specific_account }}</li>
   </ul>
 {% endblock %}

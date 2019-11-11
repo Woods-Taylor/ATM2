@@ -12,7 +12,7 @@ def index(request):
     num_accounts = userAccount.objects.all().count()
     specific_account = userAccount._meta.fields
     num_cards = userCard.objects.all().count()
-    atm = get_object_or_404(ATM, address = "14way")
+    atm = get_object_or_404(ATM)
 
     context = {
         'num_accounts' : num_accounts,
@@ -61,7 +61,7 @@ def transfer(request):
     '''this view renders the transfer request given source and destination pin and amount'''
     card1 = get_object_or_404(userCard, pin = request.POST["yourpin"])
     card2 = get_object_or_404(userCard, pin = request.POST["theirpin"])
-    atm = get_object_or_404(ATM, address = "14way")
+    atm = get_object_or_404(ATM)
     amount = request.POST["amount"]
     account1 = card1.account
 
@@ -75,9 +75,9 @@ def transfer(request):
         prevBal = account1.balance
         account1.balance = int(account1.balance) - int(amount)
         account2.balance = int(account2.balance) + int(amount)
-        card1.transactionHistory.history += "Money Sent to: " + card2.account.accountName + " amount of " + amount + " on " + str(datetime.datetime.now()) + "\n"
+        card1.transactionHistory.history += "Funds Sent to: " + card2.account.accountName + " amount of " + amount + " on " + str(datetime.datetime.now()) + "<br>"
         card1.transactionHistory.save()
-        card2.transactionHistory.history += "Money recieved from:" + card1.account.accountName + " amount of " + amount + "on " + str(datetime.datetime.now()) + "\n"
+        card2.transactionHistory.history += "Funds recieved from:" + card1.account.accountName + " amount of " + amount + " on " + str(datetime.datetime.now()) + "<br>"
         card2.transactionHistory.save()
         account1.save()
         account2.save()
@@ -95,7 +95,7 @@ def transfer(request):
 def withdraw(request):
     '''this view renders the withdraw request'''
     card = get_object_or_404(userCard, pin = request.POST["yourpin"])
-    atm = get_object_or_404(ATM, address = "14way")
+    atm = get_object_or_404(ATM)
     account = card.account
     amount = request.POST["amount"]
     if card.status != 'v':
@@ -104,6 +104,8 @@ def withdraw(request):
         prevBal = account.balance
         account.balance = int(account.balance) - int(amount)
         account.save()
+        card.transactionHistory.history += "Funds withdrawed " + "amount of " + amount + " on " + str(datetime.datetime.now()) + "<br>"
+        card.transactionHistory.save()
         atm.currentBalance = int(atm.currentBalance) - int(amount)
         atm.save()
         return render(request, "catalog/success.html", {"account" : account,
